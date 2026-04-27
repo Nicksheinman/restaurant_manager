@@ -15,3 +15,9 @@ class User(AbstractUser):
         choices=Role.choices,
         default=Role.CUSTOMER
     )
+    
+class VertificationToken(models.Model):
+    user=models.OneToOneField(User, on_delete=models.CASCADE)
+    token=models.CharField(max_length=300)
+    is_verificated=models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
