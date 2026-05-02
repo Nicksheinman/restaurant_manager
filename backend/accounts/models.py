@@ -16,7 +16,7 @@ class User(AbstractUser):
         default=Role.CUSTOMER
     )
     
-class VertificationToken(models.Model):
+class VerificationToken(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE)
     token=models.CharField(max_length=300)
     is_verificated=models.BooleanField(default=False)

@@ -28,9 +28,13 @@ class CustomerRegistrationSerializer(serializers.Serializer):
             username=validated_data['username'],
             email=validated_data['email'],
             first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
-            role=User.role.CUSTOMER,
+            last_name=validated_data.get('last_name', ''),
+            role=User.Role.CUSTOMER,
             is_active=False
         )
         return user
+    
+    
+class CustomerRegistartionConfirmationSerializer(serializers.Serializer):
+    token=serializers.CharField(write_only=True)
     

@@ -3,11 +3,11 @@ import logging
 logger = logging.getLogger(__name__)
 import os
 import uuid
-from ..models import VertificationToken
+from ..models import VerificationToken
 
 def send_email_registration(user):
     token=str(uuid.uuid4())
-    VertificationToken.objects.create(user=user,token=token)
+    VerificationToken.objects.create(user=user,token=token)
     frontend_url = os.getenv("FRONTEND_URL", "http://127.0.0.1:5173")
     confirm_link = f"{frontend_url}/email_confirm?token={token}"
     
