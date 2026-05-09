@@ -9,12 +9,14 @@ from .models import VerificationToken
 class CustomerRegistrationView(APIView):
     
     def post(self, request):
+        print(request.data)
         serializer=CustomerRegistrationSerializer(data=request.data)
         
         if serializer.is_valid():
             user=serializer.save()
             send_email_registration(user=user)
             return Response({'message':'user created'}, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
 
