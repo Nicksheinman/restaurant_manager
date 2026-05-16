@@ -16,21 +16,13 @@ class CustomerRegistrationView(APIView):
             user=serializer.save()
             send_email_registration(user=user)
             return Response({'message':'user created'}, status=status.HTTP_201_CREATED)
-        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
 
-class CustomerRegistrationConfirmationView(APIView):
-    
-    def get(self, request):
-        # serializer=CustomerRegistartionConfirmationSerializer
-        token = request.query_params.get('token')
-        verification=VerificationToken.objects.get(token=token)
-        verification.is_verificated=True
-        verification.save()
-        user=verification.user
-        user.is_active=True
-        user.save()
-        return Response({'message':'ok'}, status=status.HTTP_200_OK)
-
-    
+class CustomerRegistrationConfirmationView(APIView):    
+    def post(self, request):
+        serializer=CustomerRegistartionConfirmationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':'ok'}, status=status.HTTP_200_OK)
+        return Response({'message':'token not found'}, status=status.HTTP_404_NOT_FOUND)

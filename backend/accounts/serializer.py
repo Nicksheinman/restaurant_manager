@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from .models import VerificationToken
 User = get_user_model()
 
 
@@ -37,4 +38,12 @@ class CustomerRegistrationSerializer(serializers.Serializer):
     
 class CustomerRegistartionConfirmationSerializer(serializers.Serializer):
     token=serializers.CharField(write_only=True)
-    
+    def create(self, validated_data):
+        token = validated_data["token"]
+        verification=VerificationToken.objects.get(token=token)
+        verification.is_verificated=True
+        verification.save()
+        user=verification.user
+        user.is_active=True
+        user.save()
+        return user

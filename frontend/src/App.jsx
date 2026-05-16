@@ -5,6 +5,7 @@ import heroImg from './assets/hero.png'
 import './App.css'
 import { Route, Routes } from "react-router-dom";
 import RegistrationPage from './pages/auth/RegistrationPage'
+import ConfirmationPage from './pages/auth/confirmationPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -12,6 +13,7 @@ function App() {
   return (
     <Routes>
       <Route path='/registration' element={<RegistrationPage/>}/>
+      <Route path='/confirmation' element={<ConfirmationPage/>}/>
     </Routes>
   )
 }
