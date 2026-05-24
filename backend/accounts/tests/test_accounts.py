@@ -9,7 +9,8 @@ User = get_user_model()
 
 @pytest.fixture()
 def user_test(db):
-    return User.objects.create_user(username="user_test", password="1234567", email="nick@test.com")
+    user=User.objects.create_user(username="user_test", password="1234567", email="nick@test.com")
+    return user
 
 
 def test_registration(db):
@@ -25,14 +26,16 @@ def test_registration(db):
     
     
     
-# def test_registrationVertification(user_test):
-#     client=APIClient()
-#     token_obj = VerificationToken.objects.create(
-#         user=user_test,
-#         token="abc123"
-#     )
+def test_registrationVertification(user_test):
+    client=APIClient()
+    print(user_test)
+    token_obj = VerificationToken.objects.create(
+         user=user_test,
+         token="abc123"
+     )
     
-#     print(token_obj.token)
-#     response=client.post("/api/register_vertify/", {"token": "abc123"})
-#     assert response.status_code==200
+    print(token_obj.token)
+    print(token_obj.user)
+    response=client.post("/api/registration_Confirmation/", {"token": "abc123"})
+    assert response.status_code==200
     

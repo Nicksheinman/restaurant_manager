@@ -8,7 +8,6 @@ const ConfirmationPage = () => {
         const confirm=async ()=>{
             const token=new URLSearchParams(window.location.search).get('token');
             const res=await confirmationCustomerApi(token)
-            console.log(res)
         }
 
         confirm()
