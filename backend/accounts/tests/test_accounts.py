@@ -28,14 +28,11 @@ def test_registration(db):
     
 def test_registrationVertification(user_test):
     client=APIClient()
-    print(user_test)
-    token_obj = VerificationToken.objects.create(
+    VerificationToken.objects.create(
          user=user_test,
          token="abc123"
      )
-    
-    print(token_obj.token)
-    print(token_obj.user)
-    response=client.post("/api/registration_Confirmation/", {"token": "abc123"})
+
+    response=client.post("/api/auth/registration_Confirmation/", {"token": "abc123"})
     assert response.status_code==200
     
