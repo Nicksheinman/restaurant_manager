@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from .serializer import CustomerRegistrationSerializer, CustomerRegistartionConfirmationSerializer
+from .serializer import CustomerRegistrationSerializer, CustomerRegistartionConfirmationSerializer, CustomerLoginSerializer
 from .services.mail import send_email_registration
 from rest_framework.response import Response
 from rest_framework import status
 from .models import VerificationToken
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class CustomerRegistrationView(APIView):
     
@@ -26,3 +27,17 @@ class CustomerRegistrationConfirmationView(APIView):
             serializer.save()
             return Response({'message':'ok'}, status=status.HTTP_200_OK)
         return Response({'message':'token not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class CustomerLogin(APIView):
+    def post(self, request):
+        print(request.data)
+        serializer=CustomerLoginSerializer(data=request.data)
+        
+        serializer.is_valid(raise_exception=True)
+        
+        user = serializer.validated_data["user"]
+        refresh = RefreshToken.for_user(user)
+        return Response({
+                "refresh": str(refresh),
+                "access": str(refresh.access_token)
+        })

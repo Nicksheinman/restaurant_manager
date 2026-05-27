@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import VerificationToken
 User = get_user_model()
+from django.contrib.auth import authenticate
 
 
 class CustomerRegistrationSerializer(serializers.Serializer):
@@ -33,6 +34,8 @@ class CustomerRegistrationSerializer(serializers.Serializer):
             role=User.Role.CUSTOMER,
             is_active=False
         )
+        user.set_password(validated_data['password'])
+        user.save()
         return user
     
     
@@ -47,3 +50,23 @@ class CustomerRegistartionConfirmationSerializer(serializers.Serializer):
         user.is_active=True
         user.save()
         return user
+    
+class CustomerLoginSerializer(serializers.Serializer):
+    username=serializers.CharField(max_length=150)
+    password=serializers.CharField(write_only=True)
+    def validate(self, attrs):
+        user=authenticate(
+            request=self.context.get('request'),
+            username=attrs["username"],
+            password=attrs['password']
+        )
+        
+        if not user:
+            raise serializers.ValidationError("Invalid username or password")
+        
+        if not user.is_active:
+            raise serializers.ValidationError("User account is disabled")
+        
+        attrs["user"] = user
+        return attrs
+    

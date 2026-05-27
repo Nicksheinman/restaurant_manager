@@ -14,7 +14,6 @@ const RegistrationForm = () => {
     const registration=async (e)=>{
         e.preventDefault()
         const response=await registerCustomerApi(username,password, secondPassword, email, firstName, lastName)
-        console.log(response)
     }
     
 
