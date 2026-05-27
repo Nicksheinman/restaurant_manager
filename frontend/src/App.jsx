@@ -6,6 +6,7 @@ import './App.css'
 import { Route, Routes } from "react-router-dom";
 import RegistrationPage from './pages/auth/RegistrationPage'
 import ConfirmationPage from './pages/auth/confirmationPage'
+import LoginPage from './pages/auth/loginPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,6 +15,7 @@ function App() {
     <Routes>
       <Route path='/registration' element={<RegistrationPage/>}/>
       <Route path='/confirmation' element={<ConfirmationPage/>}/>
+      <Route path='/login' element={<LoginPage/>}/>
     </Routes>
   )
 }
