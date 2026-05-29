@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'corsheaders',
     "rest_framework",
     'accounts',
+    'reservation'
 ]
 
 REST_FRAMEWORK={
