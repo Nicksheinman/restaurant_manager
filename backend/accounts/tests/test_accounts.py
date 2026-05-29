@@ -39,6 +39,8 @@ def test_registration_vertification(user_test):
 def test_login_view(user_test):
     client=APIClient()
     response=client.post("/api/auth/login_user/", {'username': "user_test", "password":"1234567"})
-    print(response)
+    print(response.data)
+    print(list(response.data.keys()))
     assert response.status_code==200
+    assert list(response.data.keys())==['refresh', 'access']
     
