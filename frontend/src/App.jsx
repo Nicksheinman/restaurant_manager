@@ -7,6 +7,8 @@ import { Route, Routes } from "react-router-dom";
 import RegistrationPage from './pages/auth/RegistrationPage'
 import ConfirmationPage from './pages/auth/confirmationPage'
 import LoginPage from './pages/auth/loginPage'
+import LogoutPage from './pages/auth/logoutPage'
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -16,6 +18,7 @@ function App() {
       <Route path='/registration' element={<RegistrationPage/>}/>
       <Route path='/confirmation' element={<ConfirmationPage/>}/>
       <Route path='/login' element={<LoginPage/>}/>
+      <Route path='/logout' element={<LogoutPage/>}/>
     </Routes>
   )
 }
