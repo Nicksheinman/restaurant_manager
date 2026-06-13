@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-
 class Table(models.Model):
     class TableType(models.TextChoices):
         ROUND = "round", "Round"
@@ -26,8 +25,21 @@ class Table(models.Model):
     def __str__(self):
         return self.name
 
+class Restaurant(models.Model):
+    name = models.CharField(max_length=120)
+    address = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.name
 
 class Reservation(models.Model):    
+    restaurant = models.ForeignKey(
+        Restaurant,
+        on_delete=models.CASCADE,
+        related_name="tables"
+    )
+
+    
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
@@ -49,4 +61,3 @@ class Reservation(models.Model):
     table=models.ForeignKey(Table, on_delete=models.CASCADE)
     
     guests_count=models.PositiveIntegerField()
-    
