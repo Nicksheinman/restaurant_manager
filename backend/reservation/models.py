@@ -1,7 +1,22 @@
 from django.db import models
 from django.conf import settings
 
+
+class Restaurant(models.Model):
+    name = models.CharField(max_length=120)
+    address = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.name
+
 class Table(models.Model):
+    
+    restaurant = models.ForeignKey(
+        Restaurant,
+        on_delete=models.CASCADE,
+        related_name="tables"
+    )
+    
     class TableType(models.TextChoices):
         ROUND = "round", "Round"
         SQUARE = "square", "Square"
@@ -25,19 +40,7 @@ class Table(models.Model):
     def __str__(self):
         return self.name
 
-class Restaurant(models.Model):
-    name = models.CharField(max_length=120)
-    address = models.CharField(max_length=255, blank=True)
-
-    def __str__(self):
-        return self.name
-
 class Reservation(models.Model):    
-    restaurant = models.ForeignKey(
-        Restaurant,
-        on_delete=models.CASCADE,
-        related_name="tables"
-    )
 
     
     user = models.ForeignKey(
